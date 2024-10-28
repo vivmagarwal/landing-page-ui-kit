@@ -1,5 +1,5 @@
 {
-  "name": "landing-page-uikit",
+  "name": "landing-page-ui-kit",
   "version": "1.0.4",
   "description": "Reusable UI components library in Vanilla Javascript with no dependencies",
   "main": "landing-page-ui-kit.js",
