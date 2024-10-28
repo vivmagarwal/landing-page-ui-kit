@@ -1861,6 +1861,53 @@ const uikit = (() => {
     return section;
   }
 
+
+  function createBackToTopButton(options = {}) {
+    // Set default color or use provided option
+    const { color = "bg-purple-900", hoverColor = "hover:bg-purple-800" } = options;
+
+    // Create button element
+    const button = document.createElement("button");
+    button.className = `fixed bottom-8 right-8 w-12 h-12 ${color} text-white rounded-lg shadow-lg flex items-center justify-center ${hoverColor} transition-colors back-to-top opacity-0 invisible`;
+    button.innerHTML = `<i class="fas fa-arrow-up"></i>`;
+
+    // Add floating animation style
+    const style = document.createElement("style");
+    style.textContent = `
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      .float { animation: float 6s infinite ease-in-out; }
+    `;
+    document.head.appendChild(style);
+
+    // Visibility toggle function
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        button.classList.remove("opacity-0", "invisible");
+        button.classList.add("opacity-100", "visible");
+      } else {
+        button.classList.add("opacity-0", "invisible");
+        button.classList.remove("opacity-100", "visible");
+      }
+    };
+
+    // Scroll to top on button click
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+
+    // Listen for scroll events
+    window.addEventListener("scroll", toggleVisibility);
+
+    return button;
+  }
+
   return {
     createNavigation,
     createHero,
@@ -1875,5 +1922,6 @@ const uikit = (() => {
     createPricing,
     createSocialProof,
     createFooter,
+    createBackToTopButton,
   };
 })();
