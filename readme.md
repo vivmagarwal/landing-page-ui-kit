@@ -6,6 +6,7 @@ A very strongly opinionated UI components library in Vanilla JavaScript designed
 The sole purpose of this library is to help you build a landing page quickly without worrying about the design and responsiveness in **less than 10 minutes**.
 
 # Live Example:
+https://codepen.io/drupalastic/full/MWNQVXQ
 
 
 # Suggested way to use this library:
