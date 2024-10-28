@@ -1,0 +1,16 @@
+{
+  "name": "landing-page-ui-kit",
+  "version": "1.0.0",
+  "description": "Reusable UI components library in Vanilla Javascript with no dependencies",
+  "main": "landing-page-ui-kit.js",
+  "keywords": [
+    "component",
+    "library",
+    "vanilla-js",
+    "ui",
+    "Landing page",
+    "Digital marketing"
+  ],
+  "author": "Vivek",
+  "license": "MIT"
+}
