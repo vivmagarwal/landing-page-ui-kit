@@ -820,8 +820,8 @@ const uikit = (() => {
     const colorScheme = {
       primaryColor: "purple-900",
       primaryBg: "purple-100",
-      sectionBg: "gray-900",
-      textColor: "gray-200",
+      sectionBg: "gray-900", // footer's sectionBg must be gray-900 by default
+      textColor: "gray-200", // footer's textColor must be gray-200 by default
       subduedTextColor: "gray-400",
       solidButtonHover: "purple-700",
       outlineButtonHover: "purple-200",
@@ -893,7 +893,7 @@ const uikit = (() => {
     socialLinks.forEach((link) => {
       const socialLink = document.createElement("a");
       socialLink.href = link.href;
-      socialLink.className = `w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-${colorScheme.primaryColor} transition-colors`;
+      socialLink.className = `w-10 h-10 bg-gray-800 text-${colorScheme.textColor} rounded-lg flex items-center justify-center hover:bg-${colorScheme.primaryColor} transition-colors`;
       socialLink.innerHTML = `<i class="${link.iconClass}"></i>`;
       socialLinksContainer.appendChild(socialLink);
     });
@@ -1159,7 +1159,6 @@ const uikit = (() => {
   }
 
   function createPricing(options = {}) {
-    // Default color scheme, allowing overrides from options
     const colorScheme = {
       primaryColor: "purple-900",
       primaryBg: "purple-100",
@@ -1286,50 +1285,64 @@ const uikit = (() => {
       }
 
       // Image
-      const imageContainer = document.createElement("div");
-      imageContainer.className = "flex justify-center mb-6";
-      const image = document.createElement("img");
-      image.src = option.imageSrc;
-      image.alt = option.imageAlt;
-      image.className = "w-16 h-16 bg-white rounded-2xl shadow-sm p-2";
-      imageContainer.appendChild(image);
-      card.appendChild(imageContainer);
+      if (option.imageSrc) {
+        const imageContainer = document.createElement("div");
+        imageContainer.className = "flex justify-center mb-6";
+        const image = document.createElement("img");
+        image.src = option.imageSrc;
+        image.alt = option.imageAlt;
+        image.className = "w-16 h-16 bg-white rounded-2xl shadow-sm p-2";
+        imageContainer.appendChild(image);
+        card.appendChild(imageContainer);
+      }
 
       // Title and Subtitle
-      const titleContainer = document.createElement("div");
-      titleContainer.className = "text-center mb-8";
-      const titleElem = document.createElement("h3");
-      titleElem.className = "text-2xl font-bold mb-1";
-      titleElem.textContent = option.title;
+      if (option.title || option.subtitle) {
+        const titleContainer = document.createElement("div");
+        titleContainer.className = "text-center mb-8";
+      }
 
-      const subtitleElem = document.createElement("p");
-      subtitleElem.className = "text-gray-500 text-sm";
-      subtitleElem.textContent = option.subtitle;
+      if (option.title) {
+        const titleElem = document.createElement("h3");
+        titleElem.className = "text-2xl font-bold mb-1";
+        titleElem.textContent = option.title;
+        titleContainer.appendChild(titleElem);
+      }
 
-      titleContainer.appendChild(titleElem);
-      titleContainer.appendChild(subtitleElem);
-      card.appendChild(titleContainer);
+      if (option.subtitle) {
+        const subtitleElem = document.createElement("p");
+        subtitleElem.className = "text-gray-500 text-sm";
+        subtitleElem.textContent = option.subtitle;
+        titleContainer.appendChild(subtitleElem);
+      }
+
+      if (option.title || option.subtitle) {
+        card.appendChild(titleContainer);
+      }
 
       // Description
-      const descriptionElem = document.createElement("p");
-      descriptionElem.className = `text-${colorScheme.subduedTextColor} mb-4 text-center`;
-      descriptionElem.textContent = option.description;
-      card.appendChild(descriptionElem);
 
-      // Items List (centered container, left-aligned items)
-      const itemListContainer = document.createElement("div");
-      itemListContainer.className = "flex justify-center"; // Centering container horizontally
+      if (option.item && Array.isArray(option.item) && option.item.length > 0) {
+        const descriptionElem = document.createElement("p");
+        descriptionElem.className = `text-${colorScheme.subduedTextColor} mb-4 text-center`;
+        descriptionElem.textContent = option.description;
+        card.appendChild(descriptionElem);
 
-      const itemList = document.createElement("ul");
-      itemList.className = "space-y-2 mb-4 text-left"; // Left-aligning list items
-      option.items.forEach((item) => {
-        const itemElem = document.createElement("li");
-        itemElem.className = "flex items-center gap-2";
-        itemElem.innerHTML = `<i class="fas fa-check text-${colorScheme.tickColor}"></i> <span>${item}</span>`;
-        itemList.appendChild(itemElem);
-      });
-      itemListContainer.appendChild(itemList);
-      card.appendChild(itemListContainer);
+        // Items List (centered container, left-aligned items)
+        const itemListContainer = document.createElement("div");
+        itemListContainer.className = "flex justify-center"; // Centering container horizontally
+
+        const itemList = document.createElement("ul");
+        itemList.className = "space-y-2 mb-4 text-left"; // Left-aligning list items
+        option.items.forEach((item) => {
+          const itemElem = document.createElement("li");
+          itemElem.className = "flex items-center gap-2";
+          itemElem.innerHTML = `<i class="fas fa-check text-${colorScheme.tickColor}"></i> <span>${item}</span>`;
+          itemList.appendChild(itemElem);
+        });
+        itemListContainer.appendChild(itemList);
+        card.appendChild(itemListContainer);
+      }
 
       // Pre-Price Description
       if (option.prePriceDescription) {
@@ -1365,11 +1378,13 @@ const uikit = (() => {
       }
 
       // CTA Button
-      const button = document.createElement("button");
-      button.className = `w-full py-3 px-6 bg-${colorScheme.primaryColor} text-white rounded-xl hover:bg-${colorScheme.solidButtonHover} transition-colors`;
-      button.textContent = option.buttonText;
-      button.addEventListener("click", option.buttonHandler);
-      card.appendChild(button);
+      if (option.buttonText) {
+        const button = document.createElement("button");
+        button.className = `w-full py-3 px-6 bg-${colorScheme.primaryColor} text-white rounded-xl hover:bg-${colorScheme.solidButtonHover} transition-colors`;
+        button.textContent = option.buttonText;
+        button.addEventListener("click", option.buttonHandler);
+        card.appendChild(button);
+      }
 
       pricingGrid.appendChild(card);
     });
@@ -1642,8 +1657,8 @@ const uikit = (() => {
       description = "Description related to the section in which it is placed comes here. It is obviously optional. Any element within this section heading section can be skipped.",
       blocks = [
         [
-          { title: "$2M+", description: "AVERAGE CLIENT ROI", iconClass: "fas fa-dollar-sign", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
-          { title: "Secret insights", description: "FROM REAL CASE-STUDIES", iconClass: "fas fa-lightbulb", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
+          { title: "$2M+", description: "AVERAGE CLIENT ROI", iconClass: "fas fa-dollar-sign", bgColor: "bg-gray-100", iconColor: `text-${colorScheme.primaryColor}` },
+          { title: "Secret insights", description: "FROM REAL CASE-STUDIES", iconClass: "fas fa-lightbulb", bgColor: "bg-gray-100", iconColor: `text-${colorScheme.primaryColor}` },
         ],
         [
           {
@@ -1659,8 +1674,8 @@ const uikit = (() => {
           },
         ],
         [
-          { title: "$2M+", description: "AVERAGE CLIENT ROI", iconClass: "fas fa-dollar-sign", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
-          { title: "Secret insights", description: "FROM REAL CASE-STUDIES", iconClass: "fas fa-lightbulb", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
+          { title: "Multiple projects", description: "LEARN BY DOING", iconClass: "fas fa-code", bgColor: "bg-gray-100", iconColor: `text-${colorScheme.primaryColor}` },
+          { title: "Live QnA sessions", description: "TALK WITH INDUSTRY MENTORS", iconClass: "fas fa-video", bgColor: "bg-gray-100", iconColor: `text-${colorScheme.primaryColor}` },
         ],
       ],
     } = options;
@@ -2136,11 +2151,10 @@ const uikit = (() => {
   }
 
   function createFeatureHighlights(options = {}) {
-    // Default color scheme, allowing overrides from options
     const colorScheme = {
       primaryColor: "purple-900",
       primaryBg: "purple-100",
-      sectionBg: "purple-50", // Section background derived from primary color
+      sectionBg: "purple-50",
       textColor: "black",
       subduedTextColor: "text-gray-600",
       solidButtonHover: "purple-700",
