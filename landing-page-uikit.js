@@ -1173,7 +1173,7 @@ const uikit = (() => {
 
     // Set default options
     const {
-      sectionTag = "Section Tag",
+      sectionTag = "Attractive Plans",
       title = "This Is A Reusable Section Header",
       subheading = "Feel Free to Make this subheading your Heading for the section",
       description = "Description related to the section in which it is placed comes here. It is obviously optional. Any element within this section heading section can be skipped.",
@@ -1272,60 +1272,57 @@ const uikit = (() => {
     pricingGrid.className = "max-w-7xl mx-auto grid gap-8";
     pricingGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
 
-    pricingOptions.forEach((option) => {
+    pricingOptions.forEach((pricing_option) => {
       const card = document.createElement("div");
-      card.className = `rounded-3xl p-8 ${option.style} relative overflow-hidden h-full flex flex-col`;
+      card.className = `rounded-3xl p-8 ${pricing_option.style} relative overflow-hidden h-full flex flex-col`;
 
       // Badge
-      if (option.badge) {
+      if (pricing_option.badge) {
         const badge = document.createElement("span");
         badge.className = `absolute top-4 right-4 px-3 py-1 text-xs font-semibold text-white bg-${colorScheme.primaryColor} rounded-full`;
-        badge.textContent = option.badge;
+        badge.textContent = pricing_option.badge;
         card.appendChild(badge);
       }
 
       // Image
-      if (option.imageSrc) {
+      if (pricing_option.imageSrc) {
         const imageContainer = document.createElement("div");
         imageContainer.className = "flex justify-center mb-6";
         const image = document.createElement("img");
-        image.src = option.imageSrc;
-        image.alt = option.imageAlt;
+        image.src = pricing_option.imageSrc;
+        image.alt = pricing_option.imageAlt;
         image.className = "w-16 h-16 bg-white rounded-2xl shadow-sm p-2";
         imageContainer.appendChild(image);
         card.appendChild(imageContainer);
       }
 
       // Title and Subtitle
-      if (option.title || option.subtitle) {
-        const titleContainer = document.createElement("div");
-        titleContainer.className = "text-center mb-8";
-      }
+      if (pricing_option.title || pricing_option.subtitle) {
+        const pricing_option_title_container = document.createElement("div");
+        pricing_option_title_container.className = "text-center mb-8";
 
-      if (option.title) {
-        const titleElem = document.createElement("h3");
-        titleElem.className = "text-2xl font-bold mb-1";
-        titleElem.textContent = option.title;
-        titleContainer.appendChild(titleElem);
-      }
+        if (pricing_option.title) {
+          const titleElem = document.createElement("h3");
+          titleElem.className = "text-2xl font-bold mb-1";
+          titleElem.textContent = pricing_option.title;
+          pricing_option_title_container.appendChild(titleElem);
+        }
 
-      if (option.subtitle) {
-        const subtitleElem = document.createElement("p");
-        subtitleElem.className = "text-gray-500 text-sm";
-        subtitleElem.textContent = option.subtitle;
-        titleContainer.appendChild(subtitleElem);
-      }
-
-      if (option.title || option.subtitle) {
-        card.appendChild(titleContainer);
+        if (pricing_option.subtitle) {
+          const subtitleElem = document.createElement("p");
+          subtitleElem.className = "text-gray-500 text-sm";
+          subtitleElem.textContent = pricing_option.subtitle;
+          pricing_option_title_container.appendChild(subtitleElem);
+        }
+        card.appendChild(pricing_option_title_container);
       }
 
       // Description
 
-      if (option.item && Array.isArray(option.item) && option.item.length > 0) {
+      if (pricing_option.items && Array.isArray(pricing_option.items) && pricing_option.items.length > 0) {
         const descriptionElem = document.createElement("p");
         descriptionElem.className = `text-${colorScheme.subduedTextColor} mb-4 text-center`;
-        descriptionElem.textContent = option.description;
+        descriptionElem.textContent = pricing_option.description;
         card.appendChild(descriptionElem);
 
         // Items List (centered container, left-aligned items)
@@ -1334,7 +1331,7 @@ const uikit = (() => {
 
         const itemList = document.createElement("ul");
         itemList.className = "space-y-2 mb-4 text-left"; // Left-aligning list items
-        option.items.forEach((item) => {
+        pricing_option.items.forEach((item) => {
           const itemElem = document.createElement("li");
           itemElem.className = "flex items-center gap-2";
           itemElem.innerHTML = `<i class="fas fa-check text-${colorScheme.tickColor}"></i> <span>${item}</span>`;
@@ -1345,10 +1342,10 @@ const uikit = (() => {
       }
 
       // Pre-Price Description
-      if (option.prePriceDescription) {
+      if (pricing_option.prePriceDescription) {
         const prePriceDesc = document.createElement("p");
         prePriceDesc.className = `text-center text-sm text-${colorScheme.subduedTextColor} mb-2 italic`;
-        prePriceDesc.textContent = option.prePriceDescription;
+        prePriceDesc.textContent = pricing_option.prePriceDescription;
         card.appendChild(prePriceDesc);
       }
 
@@ -1357,12 +1354,12 @@ const uikit = (() => {
       pricingContainer.className = "text-center mb-4";
       const priceElem = document.createElement("span");
       priceElem.className = "text-4xl font-bold";
-      priceElem.textContent = option.offerPrice;
+      priceElem.textContent = pricing_option.offerPrice;
 
-      const originalPriceElem = option.originalPrice ? document.createElement("span") : null;
+      const originalPriceElem = pricing_option.originalPrice ? document.createElement("span") : null;
       if (originalPriceElem) {
         originalPriceElem.className = "text-2xl text-gray-400 line-through ml-3";
-        originalPriceElem.textContent = option.originalPrice;
+        originalPriceElem.textContent = pricing_option.originalPrice;
         pricingContainer.appendChild(originalPriceElem);
       }
 
@@ -1370,19 +1367,19 @@ const uikit = (() => {
       card.appendChild(pricingContainer);
 
       // Post-Price Description
-      if (option.postPriceDescription) {
+      if (pricing_option.postPriceDescription) {
         const postPriceDesc = document.createElement("p");
         postPriceDesc.className = `text-center text-sm text-${colorScheme.subduedTextColor} mb-4`;
-        postPriceDesc.textContent = option.postPriceDescription;
+        postPriceDesc.textContent = pricing_option.postPriceDescription;
         card.appendChild(postPriceDesc);
       }
 
       // CTA Button
-      if (option.buttonText) {
+      if (pricing_option.buttonText) {
         const button = document.createElement("button");
         button.className = `w-full py-3 px-6 bg-${colorScheme.primaryColor} text-white rounded-xl hover:bg-${colorScheme.solidButtonHover} transition-colors`;
-        button.textContent = option.buttonText;
-        button.addEventListener("click", option.buttonHandler);
+        button.textContent = pricing_option.buttonText;
+        button.addEventListener("click", pricing_option.buttonHandler);
         card.appendChild(button);
       }
 
