@@ -52,71 +52,27 @@ Or, directly include via CDN:
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YourSITE Navigation</title>
-    <script src="https://unpkg.com/landing-page-ui-kit@latest/landing-page-ui-kit.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <style>
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-      .float {
-        animation: float 6s infinite ease-in-out;
-      }
-    </style>
   </head>
   <body class="bg-gray-50">
-    <!-- Individual Sections here -->
-
-    <!-- Scroll to Top Button -->
-    <button class="fixed bottom-8 right-8 w-12 h-12 bg-purple-900 text-white rounded-lg shadow-lg flex items-center justify-center hover:bg-purple-800 transition-colors back-to-top opacity-0 invisible">
-      <i class="fas fa-arrow-up"></i>
-    </button>
-
+    <script src="https://unpkg.com/landing-page-ui-kit@latest/landing-page-uikit.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Get the button
-        const backToTopButton = document.querySelector(".back-to-top");
+      // append uikit components to document.body here
 
-        // Show button when page is scrolled up to given distance
-        const toggleVisibility = () => {
-          if (window.pageYOffset > 300) {
-            backToTopButton.classList.remove("opacity-0", "invisible");
-            backToTopButton.classList.add("opacity-100", "visible");
-          } else {
-            backToTopButton.classList.add("opacity-0", "invisible");
-            backToTopButton.classList.remove("opacity-100", "visible");
-          }
-        };
-
-        // Add scroll event listener
-        window.addEventListener("scroll", toggleVisibility);
-
-        // Add click event listener for smooth scrolling
-        backToTopButton.addEventListener("click", (e) => {
-          e.preventDefault();
-
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-        });
-      });
+    </script>
+    <script>
+      document.body.appendChild(uikit.createBackToTopButton({color: "bg-purple-900", hoverColor: "hover:bg-purple-800"}));
     </script>
   </body>
 </html>
 ```
 
-
 # Usage
 
 Each component can be used by calling functions provided in the library. Components can be added to the DOM by appending them to the `document.body` or a specific element in your page.
 
+# *** THE BELOW DOCUMENTATION IS OUTDATED! IT WILL BE UPDATED SOON! ***
 
 ## `createNavigation()`
 

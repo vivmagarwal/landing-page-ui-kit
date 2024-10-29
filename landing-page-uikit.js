@@ -1,8 +1,20 @@
 const uikit = (() => {
   function createNavigation(options = {}) {
+    // Default color scheme with sectionBg for larger background blocks
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white", // Default to white for section-wide backgrounds
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
     // Set default options
     const {
-      logo = { src: "https://dummyimage.com/180x60/4c1d95/ffffff&text=YourSITE", alt: "YourSITE", href: "/" },
+      logo = { src: `https://dummyimage.com/180x60/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=YourSITE`, alt: "YourSITE", href: "/" },
       links = [
         { text: "Services", href: "#services" },
         { text: "Process", href: "#process" },
@@ -10,16 +22,26 @@ const uikit = (() => {
         { text: "Team", href: "#team" },
       ],
       actionButtons = [
-        { text: "Contact Us", href: "#contact", color: "border-2 border-purple-900 text-purple-900 hover:bg-purple-50", handler: null },
-        { text: "Get Demo", href: "#demo", color: "border-2 border-purple-900 bg-purple-900 text-white hover:bg-purple-800", handler: null },
+        {
+          text: "Contact Us",
+          href: "#contact",
+          color: `border-2 border-${colorScheme.primaryColor} text-${colorScheme.primaryColor} hover:bg-${colorScheme.outlineButtonHover}`,
+          handler: null,
+        },
+        {
+          text: "Get Demo",
+          href: "#demo",
+          color: `border-2 border-${colorScheme.primaryColor} bg-${colorScheme.primaryColor} text-white hover:bg-${colorScheme.solidButtonHover}`,
+          handler: null,
+        },
       ],
-      menuToggleColor = "bg-purple-900",
+      menuToggleColor = `bg-${colorScheme.primaryColor}`,
       onScrollHide = true,
     } = options;
 
-    // Create main nav container
+    // Create main nav container with sectionBg applied
     const nav = document.createElement("nav");
-    nav.className = "fixed bg-white top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50";
+    nav.className = `fixed top-0 w-full bg-${colorScheme.sectionBg} backdrop-blur-sm border-b border-gray-200 z-50`;
 
     // Logo element
     const logoContainer = document.createElement("a");
@@ -40,7 +62,7 @@ const uikit = (() => {
     links.forEach((link) => {
       const linkElem = document.createElement("a");
       linkElem.href = link.href;
-      linkElem.className = "text-gray-600 hover:text-purple-900";
+      linkElem.className = `text-${colorScheme.subduedTextColor} hover:text-${colorScheme.primaryColor}`;
       linkElem.textContent = link.text;
       linksContainer.appendChild(linkElem);
     });
@@ -65,7 +87,7 @@ const uikit = (() => {
     // Mobile menu button
     const menuBtn = document.createElement("button");
     menuBtn.id = "menuBtn";
-    menuBtn.className = "lg:hidden p-2";
+    menuBtn.className = "lg:hidden p-2 flex flex-col items-center justify-center";
     menuBtn.setAttribute("aria-label", "Menu");
     [1, 2, 3].forEach(() => {
       const line = document.createElement("div");
@@ -76,14 +98,14 @@ const uikit = (() => {
     // Mobile menu
     const mobileMenu = document.createElement("div");
     mobileMenu.id = "mobileMenu";
-    mobileMenu.className = "hidden lg:hidden bg-white border-t border-gray-200";
+    mobileMenu.className = `hidden lg:hidden bg-${colorScheme.sectionBg} border-t border-gray-200`;
     const mobileLinksContainer = document.createElement("div");
     mobileLinksContainer.className = "px-4 py-2 space-y-2";
 
     links.forEach((link) => {
       const linkElem = document.createElement("a");
       linkElem.href = link.href;
-      linkElem.className = "block py-2 text-gray-600";
+      linkElem.className = `block py-2 text-${colorScheme.subduedTextColor}`;
       linkElem.textContent = link.text;
       linkElem.addEventListener("click", () => mobileMenu.classList.add("hidden"));
       mobileLinksContainer.appendChild(linkElem);
@@ -136,26 +158,39 @@ const uikit = (() => {
   }
 
   function createHero(options = {}) {
+    // Default color scheme with new `sectionBg` key
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
+    // Set default options
     const {
       welcomeText = "Welcome to YourSITE Consulting",
       title = "Transform Your Business with",
       highlightedText = "Intelligent Solutions",
       subtitle = "Leverage cutting-edge artificial intelligence to streamline operations, enhance decision-making, and drive unprecedented growth for your enterprise.",
       buttons = [
-        { text: "Watch Demo", href: "#demo", color: "bg-purple-900 text-white hover:bg-purple-800" },
-        { text: "Get Started", href: "#contact", color: "border-2 border-purple-900 text-purple-900 hover:bg-purple-50" },
+        { text: "Watch Demo", href: "#demo", color: `bg-${colorScheme.primaryColor} text-white hover:bg-${colorScheme.solidButtonHover}` },
+        { text: "Get Started", href: "#contact", color: `border-2 border-${colorScheme.primaryColor} text-${colorScheme.primaryColor} hover:bg-${colorScheme.outlineButtonHover}` },
       ],
       rating = { stars: "5.0", text: "5.0 rating on Clutch" },
       enterprisesServed = { count: "500+", description: "enterprises served" },
       image = {
-        src: "https://dummyimage.com/600x500/4c1d95/ffffff&text=AI+Platform+Interface",
+        src: `https://dummyimage.com/600x500/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=AI+Platform+Interface`,
         alt: "AI Platform Interface",
       },
     } = options;
 
-    // Create the main section
+    // Create the main section with sectionBg as background
     const section = document.createElement("section");
-    section.className = "pt-32 pb-20 px-4";
+    section.className = `pt-32 pb-20 px-4 bg-${colorScheme.sectionBg}`;
 
     // Container div
     const container = document.createElement("div");
@@ -171,17 +206,17 @@ const uikit = (() => {
 
     // Welcome Text Badge
     const welcomeBadge = document.createElement("span");
-    welcomeBadge.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+    welcomeBadge.className = `inline-block px-4 py-1 bg-${colorScheme.outlineButtonHover} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
     welcomeBadge.textContent = welcomeText;
 
     // Title with Highlighted Text
     const titleElem = document.createElement("h1");
     titleElem.className = "text-4xl lg:text-5xl font-bold mb-6";
-    titleElem.innerHTML = `${title} <span class="text-purple-900 relative">${highlightedText}<span class="absolute bottom-0 left-0 w-full h-2 bg-blue-200 opacity-50 -z-10"></span></span>`;
+    titleElem.innerHTML = `${title} <span class="text-${colorScheme.primaryColor} relative">${highlightedText}<span class="absolute bottom-0 left-0 w-full h-2 bg-${colorScheme.outlineButtonHover} opacity-50 -z-10"></span></span>`;
 
     // Subtitle
     const subtitleElem = document.createElement("p");
-    subtitleElem.className = "text-gray-600 text-lg mb-8";
+    subtitleElem.className = `text-${colorScheme.subduedTextColor} text-lg mb-8`;
     subtitleElem.textContent = subtitle;
 
     // Buttons
@@ -206,11 +241,11 @@ const uikit = (() => {
     // Extract star count from the first number in the rating text
     const starCount = parseInt(rating.stars, 10) || 0;
     const stars = document.createElement("div");
-    stars.className = "text-blue-500";
-    stars.innerHTML = "★".repeat(starCount).padEnd(5, "☆"); // Full stars and empty stars for 5-star scale
+    stars.className = `text-${colorScheme.primaryColor}`;
+    stars.innerHTML = "★".repeat(starCount).padEnd(5, "☆");
 
     const ratingText = document.createElement("span");
-    ratingText.className = "text-sm text-gray-600";
+    ratingText.className = `text-sm text-${colorScheme.subduedTextColor}`;
     ratingText.textContent = rating.text;
 
     ratingContainer.appendChild(stars);
@@ -226,7 +261,7 @@ const uikit = (() => {
     enterpriseCount.className = "text-xl font-bold";
     enterpriseCount.textContent = enterprisesServed.count;
     const enterpriseText = document.createElement("span");
-    enterpriseText.className = "text-sm text-gray-600 ml-2";
+    enterpriseText.className = `text-sm text-${colorScheme.subduedTextColor} ml-2`;
     enterpriseText.textContent = enterprisesServed.description;
     enterpriseContainer.appendChild(enterpriseCount);
     enterpriseContainer.appendChild(enterpriseText);
@@ -256,9 +291,9 @@ const uikit = (() => {
 
     // Decorative Elements
     const decorativeCircle1 = document.createElement("div");
-    decorativeCircle1.className = "absolute -right-5 -top-5 w-32 h-32 bg-gray-200 opacity-20 rounded-full";
+    decorativeCircle1.className = `absolute -right-5 -top-5 w-32 h-32 bg-${colorScheme.outlineButtonHover} opacity-20 rounded-full`;
     const decorativeCircle2 = document.createElement("div");
-    decorativeCircle2.className = "absolute -left-10 -bottom-10 w-44 h-44 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full opacity-50";
+    decorativeCircle2.className = `absolute -left-10 -bottom-10 w-44 h-44 bg-gradient-to-br from-${colorScheme.primaryBg} to-${colorScheme.outlineButtonHover} rounded-full opacity-50`;
 
     // Append elements to image container
     imageWrapper.appendChild(imgElem);
@@ -280,6 +315,19 @@ const uikit = (() => {
   }
 
   function createLeadCapture(options = {}) {
+    // Default color scheme with new sectionBg key, allowing overrides from options
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
+    // Set default options
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
@@ -294,49 +342,36 @@ const uikit = (() => {
         { type: "select", placeholder: "Select a Country", options: ["United States", "United Kingdom", "Canada", "Australia"] },
       ],
       buttonText = "Get Started",
-      buttonClass = "w-full py-3 px-6 bg-purple-900 text-white rounded-md hover:bg-purple-800 transition-colors font-medium",
+      buttonClass = `w-full py-3 px-6 bg-${colorScheme.primaryColor} text-white rounded-md hover:bg-${colorScheme.solidButtonHover} transition-colors font-medium`,
       onSubmit = (data) => console.log("Form submitted with data:", data),
       features = [
         {
           iconClass: "fas fa-shopping-cart",
-          iconBgColor: "bg-blue-100",
-          iconColor: "text-blue-500",
+          iconBgColor: `bg-${colorScheme.primaryBg}`,
+          iconColor: `text-${colorScheme.primaryColor}`,
           title: "AI-Powered Analytics",
           description: "Transform your data into actionable insights with our advanced AI analytics platform. Make informed decisions faster.",
         },
         {
           iconClass: "fas fa-envelope",
-          iconBgColor: "bg-purple-100",
-          iconColor: "text-purple-500",
+          iconBgColor: `bg-${colorScheme.primaryBg}`,
+          iconColor: `text-${colorScheme.primaryColor}`,
           title: "Process Automation",
           description: "Streamline your operations with intelligent automation solutions that reduce costs and improve efficiency.",
-        },
-        {
-          iconClass: "fas fa-video",
-          iconBgColor: "bg-indigo-100",
-          iconColor: "text-indigo-500",
-          title: "Predictive Modeling",
-          description: "Leverage machine learning to forecast trends and prepare for future market conditions.",
-        },
-        {
-          iconClass: "fas fa-camera",
-          iconBgColor: "bg-pink-100",
-          iconColor: "text-pink-500",
-          title: "Custom AI Solutions",
-          description: "Tailored artificial intelligence solutions designed specifically for your business needs.",
         },
       ],
     } = options;
 
+    // Section Container with sectionBg applied
     const section = document.createElement("section");
-    section.className = "py-16 px-4 bg-purple-50/50";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
-    // Section Title
+    // Title Container
     const titleContainer = document.createElement("div");
     titleContainer.className = "max-w-7xl mx-auto text-center mb-12";
 
     const tagElem = document.createElement("span");
-    tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+    tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
     tagElem.textContent = sectionTag;
 
     const titleElem = document.createElement("h2");
@@ -348,7 +383,7 @@ const uikit = (() => {
     subheadingElem.textContent = subheading;
 
     const descriptionElem = document.createElement("p");
-    descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+    descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
     descriptionElem.textContent = description;
 
     titleContainer.appendChild(tagElem);
@@ -372,7 +407,7 @@ const uikit = (() => {
       let inputElem;
       if (field.type === "select") {
         inputElem = document.createElement("select");
-        inputElem.className = "w-full p-3 rounded-md border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all text-gray-500";
+        inputElem.className = `w-full p-3 rounded-md border border-gray-200 focus:border-${colorScheme.primaryColor} focus:ring-2 focus:ring-${colorScheme.outlineButtonHover} outline-none transition-all text-gray-500`;
         inputElem.placeholder = field.placeholder;
 
         const defaultOption = document.createElement("option");
@@ -390,7 +425,7 @@ const uikit = (() => {
         inputElem = document.createElement("input");
         inputElem.type = field.type;
         inputElem.placeholder = field.placeholder;
-        inputElem.className = "w-full p-3 rounded-md border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all";
+        inputElem.className = `w-full p-3 rounded-md border border-gray-200 focus:border-${colorScheme.primaryColor} focus:ring-2 focus:ring-${colorScheme.outlineButtonHover} outline-none transition-all`;
       }
       form.appendChild(inputElem);
     });
@@ -436,7 +471,7 @@ const uikit = (() => {
       featureTitle.textContent = feature.title;
 
       const featureDescription = document.createElement("p");
-      featureDescription.className = "text-gray-600";
+      featureDescription.className = `text-${colorScheme.subduedTextColor}`;
       featureDescription.textContent = feature.description;
 
       featureText.appendChild(featureTitle);
@@ -454,8 +489,20 @@ const uikit = (() => {
   }
 
   function createFooter(options = {}) {
+    // Set up the default color scheme with sectionBg derived from primary color
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "gray-900",
+      textColor: "gray-200",
+      subduedTextColor: "gray-400",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
     const {
-      logo = { src: "https://dummyimage.com/180x60/4c1d95/ffffff&text=YourSITE", alt: "YourSITE" },
+      logo = { src: `https://dummyimage.com/180x60/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=YourSITE`, alt: "YourSITE" },
       description = "Empowering businesses through intelligent transformation. We bridge the gap between human expertise and artificial intelligence.",
       socialLinks = [
         { iconClass: "fab fa-linkedin-in", href: "#" },
@@ -482,14 +529,14 @@ const uikit = (() => {
         { text: "Accessibility", href: "#" },
       ],
       certifications = [
-        { src: "https://dummyimage.com/60x30/4CAF50/ffffff&text=ISO", alt: "ISO Certification" },
-        { src: "https://dummyimage.com/60x30/2196F3/ffffff&text=SOC2", alt: "SOC2 Certification" },
-        { src: "https://dummyimage.com/60x30/F44336/ffffff&text=GDPR", alt: "GDPR Compliant" },
+        { src: `https://dummyimage.com/60x30/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=ISO`, alt: "ISO Certification" },
+        { src: `https://dummyimage.com/60x30/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=SOC2`, alt: "SOC2 Certification" },
+        { src: `https://dummyimage.com/60x30/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=GDPR`, alt: "GDPR Compliant" },
       ],
     } = options;
 
     const footer = document.createElement("footer");
-    footer.className = "bg-gray-900 text-gray-300 py-16 px-4";
+    footer.className = `bg-${colorScheme.sectionBg} text-${colorScheme.textColor} py-16 px-4`;
 
     const container = document.createElement("div");
     container.className = "max-w-7xl mx-auto";
@@ -509,7 +556,7 @@ const uikit = (() => {
     brandColumn.appendChild(logoImg);
 
     const descriptionElem = document.createElement("p");
-    descriptionElem.className = "text-gray-400 mb-6";
+    descriptionElem.className = `text-${colorScheme.subduedTextColor} mb-6`;
     descriptionElem.textContent = description;
     brandColumn.appendChild(descriptionElem);
 
@@ -519,7 +566,7 @@ const uikit = (() => {
     socialLinks.forEach((link) => {
       const socialLink = document.createElement("a");
       socialLink.href = link.href;
-      socialLink.className = "w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-900 transition-colors";
+      socialLink.className = `w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-${colorScheme.primaryColor} transition-colors`;
       socialLink.innerHTML = `<i class="${link.iconClass}"></i>`;
       socialLinksContainer.appendChild(socialLink);
     });
@@ -529,7 +576,7 @@ const uikit = (() => {
     const createSection = (section) => {
       const sectionDiv = document.createElement("div");
       const sectionTitle = document.createElement("h3");
-      sectionTitle.className = "text-white font-semibold mb-4";
+      sectionTitle.className = `text-${colorScheme.textColor} font-semibold mb-4`;
       sectionTitle.textContent = section.title;
       sectionDiv.appendChild(sectionTitle);
 
@@ -539,7 +586,7 @@ const uikit = (() => {
         const listItem = document.createElement("li");
         const anchor = document.createElement("a");
         anchor.href = link.href;
-        anchor.className = "hover:text-white transition-colors";
+        anchor.className = `hover:text-${colorScheme.primaryColor} transition-colors`;
         anchor.textContent = link.text;
         listItem.appendChild(anchor);
         linkList.appendChild(listItem);
@@ -557,12 +604,12 @@ const uikit = (() => {
     newsletterColumn.className = "lg:col-span-2";
 
     const newsletterTitle = document.createElement("h3");
-    newsletterTitle.className = "text-white font-semibold mb-4";
+    newsletterTitle.className = `text-${colorScheme.textColor} font-semibold mb-4`;
     newsletterTitle.textContent = newsletter.title;
     newsletterColumn.appendChild(newsletterTitle);
 
     const newsletterText = document.createElement("p");
-    newsletterText.className = "text-sm text-gray-400 mb-4";
+    newsletterText.className = `text-sm text-${colorScheme.subduedTextColor} mb-4`;
     newsletterText.textContent = newsletter.text;
     newsletterColumn.appendChild(newsletterText);
 
@@ -575,12 +622,12 @@ const uikit = (() => {
     const emailInput = document.createElement("input");
     emailInput.type = "email";
     emailInput.placeholder = newsletter.placeholder;
-    emailInput.className = "flex-1 bg-white text-gray-700 px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-1 focus:ring-purple-500";
+    emailInput.className = `flex-1 bg-white text-gray-700 px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-1 focus:ring-${colorScheme.primaryColor}`;
     formGroup.appendChild(emailInput);
 
     const subscribeButton = document.createElement("button");
-    subscribeButton.type = "button"; // Avoid default form submission
-    subscribeButton.className = "bg-purple-600 text-white px-4 py-2 hover:bg-purple-500 transition-colors rounded-r";
+    subscribeButton.type = "button";
+    subscribeButton.className = `bg-${colorScheme.primaryColor} text-white px-4 py-2 hover:bg-${colorScheme.solidButtonHover} transition-colors rounded-r`;
     subscribeButton.textContent = newsletter.subscribeText;
 
     // Subscribe button handler
@@ -594,7 +641,7 @@ const uikit = (() => {
 
     // Agreement Text
     const agreementText = document.createElement("p");
-    agreementText.className = "text-xs text-gray-400 mt-2";
+    agreementText.className = `text-xs text-${colorScheme.subduedTextColor} mt-2`;
     agreementText.textContent = newsletter.agreementText;
     newsletterForm.appendChild(agreementText);
 
@@ -614,11 +661,11 @@ const uikit = (() => {
     copyright.textContent = "© 2024 YourSITE. All rights reserved.";
 
     const legalLinksContainer = document.createElement("div");
-    legalLinksContainer.className = "flex flex-wrap gap-6 text-sm";
+    legalLinksContainer.className = `flex flex-wrap gap-6 text-sm`;
     legalLinks.forEach((link) => {
       const legalLink = document.createElement("a");
       legalLink.href = link.href;
-      legalLink.className = "hover:text-white transition-colors";
+      legalLink.className = `hover:text-${colorScheme.primaryColor} transition-colors`;
       legalLink.textContent = link.text;
       legalLinksContainer.appendChild(legalLink);
     });
@@ -644,6 +691,19 @@ const uikit = (() => {
   }
 
   function createSocialProof(options = {}) {
+    // Default color scheme with sectionBg, allowing overrides from options
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white", // Used for larger section backgrounds
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
+    // Set default options
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
@@ -653,7 +713,7 @@ const uikit = (() => {
         {
           rating: 5,
           text: "Landify understands content creation. A partner that crafts engaging copy, making my content strategy smarter.",
-          imageSrc: "https://dummyimage.com/48x48/4c1d95/ffffff&text=AS",
+          imageSrc: `https://dummyimage.com/48x48/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=AS`,
           imageAlt: "Alex Smith",
           name: "Alex Smith",
           handle: "@alexsmith",
@@ -661,18 +721,25 @@ const uikit = (() => {
         {
           rating: 5,
           text: "Optimized response times of Landify are a game-changer. Quick iterations and tailored solutions make it.",
-          imageSrc: "https://dummyimage.com/48x48/4c1d95/ffffff&text=DV",
+          imageSrc: `https://dummyimage.com/48x48/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=DV`,
           imageAlt: "David Visionary",
           name: "David Visionary",
           handle: "@davidvisionary",
         },
-        // Additional reviews can be added here
+        {
+          rating: 5,
+          text: "Optimized response times of Landify are a game-changer. Quick iterations and tailored solutions make it.",
+          imageSrc: `https://dummyimage.com/48x48/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=DV`,
+          imageAlt: "David Visionary",
+          name: "David Visionary",
+          handle: "@davidvisionary",
+        },
       ],
     } = options;
 
-    // Create main section
+    // Create main section with sectionBg
     const section = document.createElement("section");
-    section.className = "py-16 px-4 bg-gray-50";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
     // Section Title Container
     const titleContainer = document.createElement("div");
@@ -680,7 +747,7 @@ const uikit = (() => {
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -701,7 +768,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -728,7 +795,7 @@ const uikit = (() => {
 
       // Review Text
       const reviewText = document.createElement("p");
-      reviewText.className = "text-gray-600 mb-6";
+      reviewText.className = `text-${colorScheme.subduedTextColor} mb-6`;
       reviewText.textContent = review.text;
       reviewCard.appendChild(reviewText);
 
@@ -750,7 +817,7 @@ const uikit = (() => {
       reviewerDetails.appendChild(reviewerName);
 
       const reviewerHandle = document.createElement("p");
-      reviewerHandle.className = "text-sm text-gray-500";
+      reviewerHandle.className = `text-sm text-${colorScheme.subduedTextColor}`;
       reviewerHandle.textContent = review.handle;
       reviewerDetails.appendChild(reviewerHandle);
 
@@ -765,15 +832,44 @@ const uikit = (() => {
   }
 
   function createPricing(options = {}) {
+    // Default color scheme, allowing overrides from options
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      tickColor: "green-500", // Default tick icon color
+      ...(options.colorScheme || {}),
+    };
+
+    // Set default options
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
       subheading = "Feel Free to Make this subheading your Heading for the section",
       description = "Description related to the section in which it is placed comes here. It is obviously optional. Any element within this section heading section can be skipped.",
-      tickColor = "text-green-500", // Default color for tick icons
       pricingOptions = [
         {
-          imageSrc: "https://dummyimage.com/48x48/4c1d95/ffffff&text=AI",
+          imageSrc: `https://dummyimage.com/48x48/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=AI`,
+          imageAlt: "AI Starter Icon",
+          title: "AI Starter Kit",
+          subtitle: "Essential AI tools for small teams",
+          description: "Get started with AI tools and models tailored for startups.",
+          items: ["12 AI Models", "Cloud-Based Processing", "NLP, Vision, Analytics Use Cases", "Business License"],
+          prePriceDescription: "The most cost-effective option. For a long-term relationship with us 🧡",
+          offerPrice: "$499",
+          originalPrice: "$899",
+          postPriceDescription: "Paid quarterly, pause or cancel anytime",
+          buttonText: "Get Started",
+          buttonHandler: () => alert("AI Starter Kit selected"),
+          badge: null,
+          style: `bg-${colorScheme.primaryBg}`,
+        },
+        {
+          imageSrc: `https://dummyimage.com/48x48/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=AI`,
           imageAlt: "AI Starter Icon",
           title: "AI Starter Kit",
           subtitle: "Essential AI tools for small teams",
@@ -786,27 +882,30 @@ const uikit = (() => {
           buttonText: "Get Started",
           buttonHandler: () => alert("AI Starter Kit selected"),
           badge: "Most Popular",
-          style: "bg-gradient-to-b from-purple-50 to-blue-50",
+          style: `bg-${colorScheme.primaryBg}`,
         },
         {
-          imageSrc: "https://dummyimage.com/48x48/4c1d95/ffffff&text=EN",
-          imageAlt: "Enterprise AI Icon",
-          title: "Enterprise AI Suite",
-          subtitle: "Advanced AI tools for large organizations",
-          description: "Complete solution with dedicated support and custom integrations.",
-          items: ["Advanced AI Models", "Dedicated Support", "Custom Integrations", "Enterprise License"],
-          prePriceDescription: "Optimal for scaling AI across large teams.",
-          offerPrice: "$1,999",
-          postPriceDescription: "Billed monthly, cancel anytime",
-          buttonText: "Schedule Demo",
-          buttonHandler: () => alert("Enterprise AI Suite selected"),
-          style: "bg-gradient-to-b from-blue-50 to-purple-50",
+          imageSrc: `https://dummyimage.com/48x48/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=AI`,
+          imageAlt: "AI Starter Icon",
+          title: "AI Starter Kit",
+          subtitle: "Essential AI tools for small teams",
+          description: "Get started with AI tools and models tailored for startups.",
+          items: ["12 AI Models", "Cloud-Based Processing", "NLP, Vision, Analytics Use Cases", "Business License"],
+          prePriceDescription: "The most cost-effective option. For a long-term relationship with us 🧡",
+          offerPrice: "$499",
+          originalPrice: "$899",
+          postPriceDescription: "Paid quarterly, pause or cancel anytime",
+          buttonText: "Get Started",
+          buttonHandler: () => alert("AI Starter Kit selected"),
+          badge: null,
+          style: `bg-${colorScheme.primaryBg}`,
         },
       ],
     } = options;
 
+    // Section Container
     const section = document.createElement("section");
-    section.className = "py-16 px-4";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
     // Section Title Container
     const titleContainer = document.createElement("div");
@@ -814,7 +913,7 @@ const uikit = (() => {
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -835,7 +934,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -845,7 +944,7 @@ const uikit = (() => {
     // Pricing Grid Container
     const pricingGrid = document.createElement("div");
     pricingGrid.className = "max-w-7xl mx-auto grid gap-8";
-    pricingGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))"; // Adjusts based on available width
+    pricingGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
 
     pricingOptions.forEach((option) => {
       const card = document.createElement("div");
@@ -854,7 +953,7 @@ const uikit = (() => {
       // Badge
       if (option.badge) {
         const badge = document.createElement("span");
-        badge.className = "absolute top-4 right-4 px-3 py-1 text-xs font-semibold text-white bg-purple-600 rounded-full";
+        badge.className = `absolute top-4 right-4 px-3 py-1 text-xs font-semibold text-white bg-${colorScheme.primaryColor} rounded-full`;
         badge.textContent = option.badge;
         card.appendChild(badge);
       }
@@ -886,25 +985,29 @@ const uikit = (() => {
 
       // Description
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 mb-4 text-center";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} mb-4 text-center`;
       descriptionElem.textContent = option.description;
       card.appendChild(descriptionElem);
 
-      // Items List
+      // Items List (centered container, left-aligned items)
+      const itemListContainer = document.createElement("div");
+      itemListContainer.className = "flex justify-center"; // Centering container horizontally
+
       const itemList = document.createElement("ul");
-      itemList.className = "space-y-2 mb-4";
+      itemList.className = "space-y-2 mb-4 text-left"; // Left-aligning list items
       option.items.forEach((item) => {
         const itemElem = document.createElement("li");
         itemElem.className = "flex items-center gap-2";
-        itemElem.innerHTML = `<i class="fas fa-check ${tickColor}"></i> <span>${item}</span>`;
+        itemElem.innerHTML = `<i class="fas fa-check text-${colorScheme.tickColor}"></i> <span>${item}</span>`;
         itemList.appendChild(itemElem);
       });
-      card.appendChild(itemList);
+      itemListContainer.appendChild(itemList);
+      card.appendChild(itemListContainer);
 
       // Pre-Price Description
       if (option.prePriceDescription) {
         const prePriceDesc = document.createElement("p");
-        prePriceDesc.className = "text-center text-sm text-gray-600 mb-2 italic";
+        prePriceDesc.className = `text-center text-sm text-${colorScheme.subduedTextColor} mb-2 italic`;
         prePriceDesc.textContent = option.prePriceDescription;
         card.appendChild(prePriceDesc);
       }
@@ -929,14 +1032,14 @@ const uikit = (() => {
       // Post-Price Description
       if (option.postPriceDescription) {
         const postPriceDesc = document.createElement("p");
-        postPriceDesc.className = "text-center text-sm text-gray-600 mb-4";
+        postPriceDesc.className = `text-center text-sm text-${colorScheme.subduedTextColor} mb-4`;
         postPriceDesc.textContent = option.postPriceDescription;
         card.appendChild(postPriceDesc);
       }
 
       // CTA Button
       const button = document.createElement("button");
-      button.className = "w-full py-3 px-6 bg-purple-900 text-white rounded-xl hover:bg-purple-800 transition-colors";
+      button.className = `w-full py-3 px-6 bg-${colorScheme.primaryColor} text-white rounded-xl hover:bg-${colorScheme.solidButtonHover} transition-colors`;
       button.textContent = option.buttonText;
       button.addEventListener("click", option.buttonHandler);
       card.appendChild(button);
@@ -949,14 +1052,28 @@ const uikit = (() => {
   }
 
   function createFAQQuick(options = {}) {
+    // Default color scheme, with sectionBg derived from primary color
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+
+      ...(options.colorScheme || {}),
+    };
+
+    // Destructure options with default values
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
       subheading = "Feel Free to Make this subheading your Heading for the section",
       description = "Description related to the section in which it is placed comes here. It is obviously optional. Any element within this section heading section can be skipped.",
       iconClass = "fas fa-question-circle", // Default icon for all questions
-      iconBgColor = "bg-purple-100", // Default background color for icon
-      iconColor = "text-purple-900", // Default color for icon
+      iconBgColor = `bg-${colorScheme.primaryBg}`, // Icon background color
+      iconColor = `text-${colorScheme.primaryColor}`, // Icon color
       faqItems = [
         {
           question: "Is there a free version of SoftRex?",
@@ -971,23 +1088,15 @@ const uikit = (() => {
           answer: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
-          question: "What is the refund policy?",
-          answer: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-        },
-        {
-          question: "Set permissions and admin controls",
-          answer: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-        },
-        {
-          question: "How to Integrate with SoftRex?",
+          question: "How to upgrade to ultimate pro?",
           answer: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
       ],
     } = options;
 
-    // Create main section
+    // Create main section with sectionBg applied
     const section = document.createElement("section");
-    section.className = "py-16 px-4 bg-gray-50";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
     // Section Title Container
     const titleContainer = document.createElement("div");
@@ -995,7 +1104,7 @@ const uikit = (() => {
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -1016,7 +1125,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -1044,7 +1153,7 @@ const uikit = (() => {
       questionElem.textContent = question;
 
       const answerElem = document.createElement("p");
-      answerElem.className = "text-gray-600";
+      answerElem.className = `text-${colorScheme.subduedTextColor}`;
       answerElem.textContent = answer;
 
       textContainer.appendChild(questionElem);
@@ -1060,6 +1169,18 @@ const uikit = (() => {
   }
 
   function createFAQCollapsed(options = {}) {
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
+    // Set default options
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
@@ -1081,17 +1202,17 @@ const uikit = (() => {
       ],
     } = options;
 
-    // Create main section
+    // Main Section with sectionBg applied
     const section = document.createElement("section");
-    section.className = "py-16 px-4";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
-    // Section Title Container
+    // Title Container
     const titleContainer = document.createElement("div");
     titleContainer.className = "max-w-7xl mx-auto text-center mb-12";
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -1112,7 +1233,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -1125,19 +1246,19 @@ const uikit = (() => {
 
     faqs.forEach(({ question, answer }) => {
       const faqItem = document.createElement("div");
-      faqItem.className = "faq-item bg-gray-50/50 rounded-lg";
+      faqItem.className = `faq-item bg-${colorScheme.sectionBg} rounded-lg`;
 
       const toggleButton = document.createElement("button");
-      toggleButton.className = "faq-toggle flex justify-between items-center w-full px-6 py-4 text-left hover:bg-gray-50 transition-colors";
+      toggleButton.className = `faq-toggle flex justify-between items-center w-full px-6 py-4 text-left hover:bg-${colorScheme.primaryBg} transition-colors`;
       toggleButton.innerHTML = `
-      <span class="font-medium">${question}</span>
-      <svg class="w-5 h-5 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <span class="font-medium text-${colorScheme.textColor}">${question}</span>
+      <svg class="w-5 h-5 text-${colorScheme.subduedTextColor} transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     `;
 
       const answerDiv = document.createElement("div");
-      answerDiv.className = "faq-answer px-6 pb-4 text-gray-600 hidden";
+      answerDiv.className = `faq-answer px-6 pb-4 text-${colorScheme.subduedTextColor} hidden`;
       answerDiv.textContent = answer;
 
       faqItem.appendChild(toggleButton);
@@ -1175,6 +1296,18 @@ const uikit = (() => {
   }
 
   function createValuePropositionBlocks(options = {}) {
+    // Default color scheme with new sectionBg key, allowing overrides from options
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "white",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
@@ -1182,39 +1315,40 @@ const uikit = (() => {
       description = "Description related to the section in which it is placed comes here. It is obviously optional. Any element within this section heading section can be skipped.",
       blocks = [
         [
-          { title: "$2M+", description: "AVERAGE CLIENT ROI", iconClass: "fas fa-dollar-sign", bgColor: "bg-purple-50", iconColor: "text-purple-900" },
-          { title: "Secret insights", description: "FROM REAL CASE-STUDIES", iconClass: "fas fa-lightbulb", bgColor: "bg-purple-50", iconColor: "text-purple-900" },
+          { title: "$2M+", description: "AVERAGE CLIENT ROI", iconClass: "fas fa-dollar-sign", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
+          { title: "Secret insights", description: "FROM REAL CASE-STUDIES", iconClass: "fas fa-lightbulb", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
         ],
         [
           {
             title: "Top companies hiring in this industry",
             description: "GET HIRED TO WORK FOR THESE GLOBAL GIANTS",
             icons: [
-              { src: "https://dummyimage.com/160x40/4c1d95/ffffff&text=Microsoft", alt: "Microsoft" },
-              { src: "https://dummyimage.com/160x40/4c1d95/ffffff&text=Adobe", alt: "Adobe" },
-              { src: "https://dummyimage.com/160x40/4c1d95/ffffff&text=Philips", alt: "Philips" },
-              { src: "https://dummyimage.com/160x40/4c1d95/ffffff&text=Intel", alt: "Intel" },
+              { src: `https://dummyimage.com/160x40/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Microsoft`, alt: "Microsoft" },
+              { src: `https://dummyimage.com/160x40/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Adobe`, alt: "Adobe" },
+              { src: `https://dummyimage.com/160x40/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Philips`, alt: "Philips" },
+              { src: `https://dummyimage.com/160x40/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Intel`, alt: "Intel" },
             ],
-            bgColor: "bg-blue-50",
+            bgColor: `bg-${colorScheme.primaryBg} bg-opacity-50`,
           },
         ],
         [
-          { title: "Multiple projects", description: "LEARN BY DOING", iconClass: "fas fa-code", bgColor: "bg-purple-50", iconColor: "text-purple-900" },
-          { title: "Live QnA sessions", description: "TALK WITH INDUSTRY MENTORS", iconClass: "fas fa-video", bgColor: "bg-purple-50", iconColor: "text-purple-900" },
+          { title: "$2M+", description: "AVERAGE CLIENT ROI", iconClass: "fas fa-dollar-sign", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
+          { title: "Secret insights", description: "FROM REAL CASE-STUDIES", iconClass: "fas fa-lightbulb", bgColor: `bg-${"gray-100"}`, iconColor: `text-${colorScheme.primaryColor}` },
         ],
       ],
     } = options;
 
+    // Section Container with sectionBg applied
     const section = document.createElement("section");
-    section.className = "py-16 px-4";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
-    // Section Title
+    // Title Container
     const titleContainer = document.createElement("div");
     titleContainer.className = "max-w-7xl mx-auto text-center mb-12";
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -1235,7 +1369,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -1244,7 +1378,8 @@ const uikit = (() => {
 
     // Blocks Container
     const blocksContainer = document.createElement("div");
-    blocksContainer.className = "max-w-7xl mx-auto grid lg:grid-cols-3 gap-6";
+
+    blocksContainer.className = "max-w-7xl mx-auto grid lg:grid-cols-3 gap-6 items-center";
 
     blocks.forEach((column) => {
       const columnContainer = document.createElement("div");
@@ -1252,7 +1387,7 @@ const uikit = (() => {
 
       column.forEach((block) => {
         const blockContainer = document.createElement("div");
-        blockContainer.className = `${block.bgColor} rounded-2xl p-8 relative overflow-hidden`;
+        blockContainer.className = `${block.bgColor || `bg-${colorScheme.sectionBg}`} rounded-2xl p-8 relative overflow-hidden`;
 
         const blockContent = document.createElement("div");
         blockContent.className = "relative z-10";
@@ -1262,7 +1397,7 @@ const uikit = (() => {
         blockTitle.textContent = block.title;
 
         const blockDescription = document.createElement("p");
-        blockDescription.className = "text-sm font-semibold uppercase tracking-wide text-gray-600";
+        blockDescription.className = `text-sm font-semibold uppercase tracking-wide text-${colorScheme.subduedTextColor}`;
         blockDescription.textContent = block.description;
 
         blockContent.appendChild(blockTitle);
@@ -1302,6 +1437,18 @@ const uikit = (() => {
   }
 
   function createOfferOverviewWithCTA(options = {}) {
+    // Default color scheme with `sectionBg` key
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "purple-50",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
     const {
       sectionTag = "Limited Time Offer",
       title = "Here's Everything You're Investing In",
@@ -1310,30 +1457,30 @@ const uikit = (() => {
       originalPrice = "Rs 6,999.00",
       offerPrice = "Rs 2,540.00",
       features = [
-        { iconClass: "fas fa-video", bgColor: "bg-purple-100", iconColor: "text-purple-900", title: "Live Sessions", description: "Interactive learning with industry experts" },
-        { iconClass: "fas fa-certificate", bgColor: "bg-blue-100", iconColor: "text-blue-900", title: "Certification", description: "Industry-recognized credentials" },
-        { iconClass: "fas fa-users", bgColor: "bg-purple-100", iconColor: "text-purple-900", title: "Community Access", description: "Network with peers and mentors" },
+        { iconClass: "fas fa-video", bgColor: `bg-${colorScheme.primaryBg}`, iconColor: `text-${colorScheme.primaryColor}`, title: "Live Sessions", description: "Interactive learning with industry experts" },
+        { iconClass: "fas fa-certificate", bgColor: `bg-${colorScheme.primaryBg}`, iconColor: `text-${colorScheme.primaryColor}`, title: "Certification", description: "Industry-recognized credentials" },
+        { iconClass: "fas fa-users", bgColor: `bg-${colorScheme.primaryBg}`, iconColor: `text-${colorScheme.primaryColor}`, title: "Community Access", description: "Network with peers and mentors" },
       ],
       ctaButtons = [
         {
           text: "Subscribe Now",
-          onClick: () => console.log("Subscribed!"), // Default handler for Subscribe Now
-          bgColor: "bg-purple-900",
+          onClick: () => console.log("Subscribed!"),
+          bgColor: `bg-${colorScheme.primaryColor}`,
           textColor: "text-white",
-          hoverBgColor: "hover:bg-purple-800",
+          hoverBgColor: `hover:bg-${colorScheme.solidButtonHover}`,
         },
         {
           text: "Skip Forever",
-          onClick: () => alert("Skipped"), // Default handler for Skip Forever
-          borderColor: "border-2 border-purple-900",
-          textColor: "text-purple-900",
-          hoverBgColor: "hover:bg-purple-50",
+          onClick: () => alert("Skipped"),
+          borderColor: `border-2 border-${colorScheme.primaryColor}`,
+          textColor: `text-${colorScheme.primaryColor}`,
+          hoverBgColor: `hover:bg-${colorScheme.sectionBg}`,
         },
       ],
     } = options;
 
     const section = document.createElement("section");
-    section.className = "bg-gradient-to-r from-purple-50 to-blue-50 py-16 px-4";
+    section.className = `bg-gradient-to-r from-${colorScheme.sectionBg} to-blue-50 py-16 px-4`;
 
     const container = document.createElement("div");
     container.className = "max-w-7xl mx-auto";
@@ -1344,7 +1491,7 @@ const uikit = (() => {
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -1365,7 +1512,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -1377,12 +1524,12 @@ const uikit = (() => {
     pricingHeader.className = "text-center mb-12";
 
     const offerTitle = document.createElement("h1");
-    offerTitle.className = "text-5xl lg:text-6xl font-bold mb-4 text-purple-900";
+    offerTitle.className = `text-5xl lg:text-6xl font-bold mb-4 text-${colorScheme.primaryColor}`;
     offerTitle.textContent = "1000+ Sessions [Worth ₹1+ Lakh]";
     pricingHeader.appendChild(offerTitle);
 
     const offerDescription = document.createElement("p");
-    offerDescription.className = "text-xl text-gray-600 max-w-3xl mx-auto font-medium";
+    offerDescription.className = `text-xl text-${colorScheme.subduedTextColor} max-w-3xl mx-auto font-medium`;
     offerDescription.textContent = "Learn Directly from Global Experts in Marketing, Product, Design & AI";
     pricingHeader.appendChild(offerDescription);
 
@@ -1404,7 +1551,7 @@ const uikit = (() => {
     originalPriceElem.textContent = originalPrice;
 
     const offerPriceElem = document.createElement("span");
-    offerPriceElem.className = "ml-2 text-2xl font-bold text-purple-900";
+    offerPriceElem.className = `ml-2 text-2xl font-bold text-${colorScheme.primaryColor}`;
     offerPriceElem.textContent = offerPrice;
 
     pricingInfo.appendChild(originalPriceElem);
@@ -1419,7 +1566,7 @@ const uikit = (() => {
       const btn = document.createElement("button");
       btn.className = `px-6 py-3 ${button.bgColor || button.borderColor} ${button.textColor} rounded-md ${button.hoverBgColor} transition-colors whitespace-nowrap`;
       btn.textContent = button.text;
-      btn.addEventListener("click", button.onClick); // Attach custom handler or default handler
+      btn.addEventListener("click", button.onClick);
       ctaContainer.appendChild(btn);
     });
 
@@ -1451,7 +1598,7 @@ const uikit = (() => {
       featureTitle.textContent = feature.title;
 
       const featureDescription = document.createElement("p");
-      featureDescription.className = "text-gray-600";
+      featureDescription.className = `text-${colorScheme.subduedTextColor}`;
       featureDescription.textContent = feature.description;
 
       featureText.appendChild(featureTitle);
@@ -1469,6 +1616,19 @@ const uikit = (() => {
   }
 
   function createKeyOutcomes(options = {}) {
+    // Default color scheme with sectionBg for section background
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "purple-50",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
+    // Set default options
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
@@ -1484,31 +1644,31 @@ const uikit = (() => {
         "Accelerate digital transformation with scalable AI infrastructure",
         "Provide comprehensive team training for AI tool adoption",
       ],
-      checkmarkColor = "text-green-500",
+      checkmarkColor = `text-${colorScheme.primaryColor}`,
       stats = {
         title: "500+ Enterprises",
         description: "have transformed their businesses with our AI solutions",
         logos: [
-          { src: "https://dummyimage.com/100x100/4c1d95/ffffff&text=Tech+Co", alt: "Technology Company" },
-          { src: "https://dummyimage.com/100x100/4c1d95/ffffff&text=Finance+", alt: "Financial Services" },
-          { src: "https://dummyimage.com/100x100/4c1d95/ffffff&text=Health", alt: "Healthcare" },
-          { src: "https://dummyimage.com/100x100/4c1d95/ffffff&text=Retail", alt: "Retail Giant" },
+          { src: `https://dummyimage.com/100x100/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Tech+Co`, alt: "Technology Company" },
+          { src: `https://dummyimage.com/100x100/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Finance+`, alt: "Financial Services" },
+          { src: `https://dummyimage.com/100x100/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Health`, alt: "Healthcare" },
+          { src: `https://dummyimage.com/100x100/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Retail`, alt: "Retail Giant" },
         ],
         benefits: ["Transform your business with cutting-edge AI solutions tailored to your industry", "Access our team of expert AI consultants and data scientists", "Join leading enterprises in achieving AI-driven digital transformation"],
       },
     } = options;
 
-    // Create the main section
+    // Main section container
     const section = document.createElement("section");
-    section.className = "py-16 px-4";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
-    // Section Title Container
+    // Section title container
     const titleContainer = document.createElement("div");
     titleContainer.className = "max-w-7xl mx-auto text-center mb-12";
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -1529,14 +1689,14 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
 
     section.appendChild(titleContainer);
 
-    // Outcomes and Stats Container
+    // Outcomes and stats container
     const container = document.createElement("div");
     container.className = "max-w-7xl mx-auto lg:grid lg:grid-cols-2 lg:gap-12";
 
@@ -1549,7 +1709,7 @@ const uikit = (() => {
     outcomesColumn.appendChild(outcomesTitle);
 
     const outcomesDescription = document.createElement("p");
-    outcomesDescription.className = "text-gray-600 text-lg mb-8";
+    outcomesDescription.className = `text-${colorScheme.subduedTextColor} text-lg mb-8`;
     outcomesDescription.textContent = description;
     outcomesColumn.appendChild(outcomesDescription);
 
@@ -1564,7 +1724,7 @@ const uikit = (() => {
       checkIcon.className = `fas fa-check ${checkmarkColor} mt-1.5`;
 
       const outcomeText = document.createElement("span");
-      outcomeText.className = "text-gray-600";
+      outcomeText.className = `text-${colorScheme.subduedTextColor}`;
       outcomeText.textContent = outcome;
 
       outcomeItem.appendChild(checkIcon);
@@ -1588,7 +1748,7 @@ const uikit = (() => {
     statsCard.appendChild(statsTitle);
 
     const statsDescription = document.createElement("p");
-    statsDescription.className = "text-gray-600 mb-8";
+    statsDescription.className = `text-${colorScheme.subduedTextColor} mb-8`;
     statsDescription.textContent = stats.description;
     statsCard.appendChild(statsDescription);
 
@@ -1615,7 +1775,7 @@ const uikit = (() => {
       benefitCheckIcon.className = `fas fa-check ${checkmarkColor} mt-1`;
 
       const benefitText = document.createElement("p");
-      benefitText.className = "text-gray-600";
+      benefitText.className = `text-${colorScheme.subduedTextColor}`;
       benefitText.textContent = benefit;
 
       benefitItem.appendChild(benefitCheckIcon);
@@ -1629,13 +1789,13 @@ const uikit = (() => {
     const badgesContainer = document.createElement("div");
     badgesContainer.className = "flex items-center space-x-4 mt-8";
     const badgeImg1 = document.createElement("img");
-    badgeImg1.src = "https://dummyimage.com/120x40/4c1d95/ffffff&text=YourSITE";
+    badgeImg1.src = `https://dummyimage.com/120x40/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=YourSITE`;
     badgeImg1.alt = "YourSITE Logo";
     badgeImg1.className = "h-10";
     badgesContainer.appendChild(badgeImg1);
 
     const badgeImg2 = document.createElement("img");
-    badgeImg2.src = "https://dummyimage.com/160x40/4c1d95/ffffff&text=AI+Leaders+2024";
+    badgeImg2.src = `https://dummyimage.com/160x40/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=AI+Leaders+2024`;
     badgeImg2.alt = "AI Leaders 2024";
     badgeImg2.className = "h-10";
     badgesContainer.appendChild(badgeImg2);
@@ -1649,6 +1809,18 @@ const uikit = (() => {
   }
 
   function createFeatureHighlights(options = {}) {
+    // Default color scheme, allowing overrides from options
+    const colorScheme = {
+      primaryColor: "purple-900",
+      primaryBg: "purple-100",
+      sectionBg: "purple-50", // Section background derived from primary color
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
     const {
       sectionTag = "Section Tag",
       title = "This Is A Reusable Section Header",
@@ -1659,7 +1831,7 @@ const uikit = (() => {
           title: "Modern Workspace",
           subheading: null,
           description: "Our state-of-the-art offices are designed to inspire creativity and facilitate collaboration, with flexible spaces for both focused work and team interactions.",
-          imageUrl: "https://dummyimage.com/800x600/4c1d95/ffffff&text=Modern+Workspace",
+          imageUrl: `https://dummyimage.com/800x600/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Modern+Workspace`,
           imageAlt: "Modern Workspace",
           highlights: ["Ergonomic workstations", "Collaborative spaces", "Recreation areas"],
         },
@@ -1667,16 +1839,16 @@ const uikit = (() => {
           title: "Growth & Development",
           subheading: null,
           description: "We invest in our team's professional development through continuous learning programs, mentorship opportunities, and career advancement paths.",
-          imageUrl: "https://dummyimage.com/800x600/4c1d95/ffffff&text=Growth+Opportunities",
+          imageUrl: `https://dummyimage.com/800x600/${colorScheme.primaryColor.replace("-", "")}/ffffff&text=Growth+Opportunities`,
           imageAlt: "Growth Opportunities",
           highlights: ["Learning & development budget", "Mentorship programs", "Career progression framework"],
         },
       ],
     } = options;
 
-    // Create the main section
+    // Create the main section with sectionBg
     const section = document.createElement("section");
-    section.className = "py-16 px-4";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
     // Section Title Container
     const titleContainer = document.createElement("div");
@@ -1684,7 +1856,7 @@ const uikit = (() => {
 
     if (sectionTag) {
       const tagElem = document.createElement("span");
-      tagElem.className = "inline-block px-4 py-1 bg-purple-50 text-purple-900 text-sm font-semibold rounded-full uppercase tracking-wide mb-4";
+      tagElem.className = `inline-block px-4 py-1 bg-${colorScheme.primaryBg} text-${colorScheme.primaryColor} text-sm font-semibold rounded-full uppercase tracking-wide mb-4`;
       tagElem.textContent = sectionTag;
       titleContainer.appendChild(tagElem);
     }
@@ -1705,7 +1877,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -1752,7 +1924,7 @@ const uikit = (() => {
 
       if (feature.description) {
         const featureDescription = document.createElement("p");
-        featureDescription.className = "text-gray-600 text-lg mb-6";
+        featureDescription.className = `text-${colorScheme.subduedTextColor} text-lg mb-6`;
         featureDescription.textContent = feature.description;
         contentContainer.appendChild(featureDescription);
       }
@@ -1768,7 +1940,7 @@ const uikit = (() => {
         checkIcon.className = "fas fa-check text-green-500";
 
         const highlightText = document.createElement("span");
-        highlightText.className = "text-gray-600";
+        highlightText.className = `text-${colorScheme.subduedTextColor}`;
         highlightText.textContent = highlight;
 
         highlightItem.appendChild(checkIcon);
@@ -1795,11 +1967,24 @@ const uikit = (() => {
   }
 
   function createFeatureChecklist(options = {}) {
+    // Default color scheme with sectionBg for large block backgrounds
+    const colorScheme = {
+      primaryColor: "purple-900",
+      textColor: "black",
+      subduedTextColor: "text-gray-600",
+      primaryBg: "purple-100",
+      sectionBg: "white",
+      solidButtonHover: "purple-700",
+      outlineButtonHover: "purple-200",
+      ...(options.colorScheme || {}),
+    };
+
+    // Set default options
     const { title = "This Is A Reusable Section Header", subheading = "Feel Free to Make this subheading your Heading for the section", description = "Description related to the section in which it is placed comes here. It is obviously optional. Any element within this section heading section can be skipped.", checklistItems = ["Something that's pretty interesting", "Something that's super-cool", "Whoa, that's like the sickest thing I've ever heard"] } = options;
 
-    // Create the main section
+    // Create the main section with sectionBg as background
     const section = document.createElement("section");
-    section.className = "py-16 px-4 bg-slate-50/50";
+    section.className = `py-16 px-4 bg-${colorScheme.sectionBg}`;
 
     // Section Title Container
     const titleContainer = document.createElement("div");
@@ -1821,7 +2006,7 @@ const uikit = (() => {
 
     if (description) {
       const descriptionElem = document.createElement("p");
-      descriptionElem.className = "text-gray-600 text-lg max-w-3xl mx-auto mb-6";
+      descriptionElem.className = `text-${colorScheme.subduedTextColor} text-lg max-w-3xl mx-auto mb-6`;
       descriptionElem.textContent = description;
       titleContainer.appendChild(descriptionElem);
     }
@@ -1840,16 +2025,16 @@ const uikit = (() => {
       iconContainer.className = "flex-shrink-0";
 
       const iconWrapper = document.createElement("div");
-      iconWrapper.className = "w-6 h-6 rounded border-2 border-blue-500 flex items-center justify-center";
+      iconWrapper.className = `w-6 h-6 rounded border-2 border-${colorScheme.primaryColor} flex items-center justify-center`;
 
       const icon = document.createElement("i");
-      icon.className = "fas fa-check text-blue-500 text-sm";
+      icon.className = `fas fa-check text-${colorScheme.primaryColor} text-sm`;
 
       iconWrapper.appendChild(icon);
       iconContainer.appendChild(iconWrapper);
 
       const textElem = document.createElement("p");
-      textElem.className = "text-gray-600";
+      textElem.className = `text-${colorScheme.subduedTextColor}`;
       textElem.textContent = item;
 
       checklistItem.appendChild(iconContainer);
@@ -1861,25 +2046,31 @@ const uikit = (() => {
     return section;
   }
 
-
   function createBackToTopButton(options = {}) {
-    // Set default color or use provided option
-    const { color = "bg-purple-900", hoverColor = "hover:bg-purple-800" } = options;
+    // Define default color scheme, using options to override if provided
+    const colorScheme = {
+      primaryColor: "purple-900",
+      solidButtonHover: "purple-800",
+      ...(options.colorScheme || {}),
+    };
+
+    // Set button color and hover color from color scheme or options
+    const { color = `bg-${colorScheme.primaryColor}`, hoverColor = `hover:bg-${colorScheme.solidButtonHover}` } = options;
 
     // Create button element
     const button = document.createElement("button");
-    button.className = `fixed bottom-8 right-8 w-12 h-12 ${color} text-white rounded-lg shadow-lg flex items-center justify-center ${hoverColor} transition-colors back-to-top opacity-0 invisible`;
+    button.className = `fixed bottom-8 right-8 w-12 h-12 ${color} text-white rounded-lg shadow-lg flex items-center justify-center ${hoverColor} transition-colors float back-to-top opacity-0 invisible`;
     button.innerHTML = `<i class="fas fa-arrow-up"></i>`;
 
     // Add floating animation style
     const style = document.createElement("style");
     style.textContent = `
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-      }
-      .float { animation: float 6s infinite ease-in-out; }
-    `;
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .float { animation: float 6s infinite ease-in-out; }
+  `;
     document.head.appendChild(style);
 
     // Visibility toggle function
