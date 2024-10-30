@@ -353,13 +353,13 @@ const uikit = (() => {
           text: "Contact Us",
           href: "#contact",
           color: `border-2 border-${colorScheme.primaryColor} text-${colorScheme.primaryColor} hover:bg-${colorScheme.outlineButtonHover}`,
-          handler: null,
+          onClick: null,
         },
         {
           text: "Get Demo",
           href: "#demo",
           color: `border-2 border-${colorScheme.primaryColor} bg-${colorScheme.primaryColor} text-white hover:bg-${colorScheme.solidButtonHover}`,
-          handler: null,
+          onClick: null,
         },
       ],
       menuToggleColor = `bg-${colorScheme.primaryColor}`,
@@ -391,6 +391,12 @@ const uikit = (() => {
       linkElem.href = link.href;
       linkElem.className = `text-${colorScheme.subduedTextColor} hover:text-${colorScheme.primaryColor}`;
       linkElem.textContent = link.text;
+      if (link.onClick) {
+        linkElem.addEventListener("click", (e) => {
+          e.preventDefault();
+          link.onClick(e);
+        });
+      }
       linksContainer.appendChild(linkElem);
     });
 
@@ -402,8 +408,11 @@ const uikit = (() => {
       buttonElem.href = button.href;
       buttonElem.className = `px-4 py-2 rounded-md ${button.color}`;
       buttonElem.textContent = button.text;
-      if (button.handler) {
-        buttonElem.addEventListener("click", button.handler);
+      if (button.onClick) {
+        buttonElem.addEventListener("click", (e) => {
+          e.preventDefault();
+          button.onClick(e);
+        });
       }
       buttonsContainer.appendChild(buttonElem);
     });
@@ -434,6 +443,12 @@ const uikit = (() => {
       linkElem.href = link.href;
       linkElem.className = `block py-2 text-${colorScheme.subduedTextColor}`;
       linkElem.textContent = link.text;
+      if (link.onClick) {
+        linkElem.addEventListener("click", (e) => {
+          e.preventDefault();
+          link.onClick(e);
+        });
+      }
       linkElem.addEventListener("click", () => mobileMenu.classList.add("hidden"));
       mobileLinksContainer.appendChild(linkElem);
     });
@@ -444,8 +459,11 @@ const uikit = (() => {
       buttonElem.href = button.href;
       buttonElem.className = `block py-2 px-4 rounded-md text-center ${button.color}`;
       buttonElem.textContent = button.text;
-      if (button.handler) {
-        buttonElem.addEventListener("click", button.handler);
+      if (button.onClick) {
+        buttonElem.addEventListener("click", (e) => {
+          e.preventDefault();
+          button.onClick(e);
+        });
       }
       buttonElem.addEventListener("click", () => mobileMenu.classList.add("hidden"));
       mobileLinksContainer.appendChild(buttonElem);
@@ -504,8 +522,8 @@ const uikit = (() => {
       highlightedText = "Intelligent Solutions",
       subtitle = "Leverage cutting-edge artificial intelligence to streamline operations, enhance decision-making, and drive unprecedented growth for your enterprise.",
       buttons = [
-        { text: "Watch Demo", href: "#demo", color: `bg-${colorScheme.primaryColor} text-white hover:bg-${colorScheme.solidButtonHover}` },
-        { text: "Get Started", href: "#contact", color: `border-2 border-${colorScheme.primaryColor} text-${colorScheme.primaryColor} hover:bg-${colorScheme.outlineButtonHover}` },
+        { text: "Watch Demo", href: "#demo", color: `bg-${colorScheme.primaryColor} text-white hover:bg-${colorScheme.solidButtonHover}`, onClick: null },
+        { text: "Get Started", href: "#contact", color: `border-2 border-${colorScheme.primaryColor} text-${colorScheme.primaryColor} hover:bg-${colorScheme.outlineButtonHover}`, onClick: null },
       ],
       rating = { stars: "5.0", text: "5.0 rating on Clutch" },
       enterprisesServed = { count: "500+", description: "enterprises served" },
@@ -554,6 +572,15 @@ const uikit = (() => {
       buttonElem.href = button.href;
       buttonElem.className = `px-6 py-3 rounded-md transition-colors ${button.color}`;
       buttonElem.textContent = button.text;
+
+      // Check for onClick handler and attach it
+      if (button.onClick) {
+        buttonElem.addEventListener("click", (event) => {
+          event.preventDefault(); // Prevent default if handler exists
+          button.onClick(event); // Execute custom handler
+        });
+      }
+
       buttonContainer.appendChild(buttonElem);
     });
 
@@ -820,8 +847,8 @@ const uikit = (() => {
     const colorScheme = {
       primaryColor: "purple-900",
       primaryBg: "purple-100",
-      sectionBg: "gray-900", // footer's sectionBg must be gray-900 by default
-      textColor: "gray-200", // footer's textColor must be gray-200 by default
+      sectionBg: "gray-900",
+      textColor: "gray-200",
       subduedTextColor: "gray-400",
       solidButtonHover: "purple-700",
       outlineButtonHover: "purple-200",
@@ -868,11 +895,9 @@ const uikit = (() => {
     const container = document.createElement("div");
     container.className = "max-w-7xl mx-auto";
 
-    // Main footer grid
     const footerGrid = document.createElement("div");
     footerGrid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12";
 
-    // Brand Column
     const brandColumn = document.createElement("div");
     brandColumn.className = "lg:col-span-1";
 
@@ -887,7 +912,6 @@ const uikit = (() => {
     descriptionElem.textContent = description;
     brandColumn.appendChild(descriptionElem);
 
-    // Social Links
     const socialLinksContainer = document.createElement("div");
     socialLinksContainer.className = "flex space-x-4";
     socialLinks.forEach((link) => {
@@ -895,11 +919,16 @@ const uikit = (() => {
       socialLink.href = link.href;
       socialLink.className = `w-10 h-10 bg-gray-800 text-${colorScheme.textColor} rounded-lg flex items-center justify-center hover:bg-${colorScheme.primaryColor} transition-colors`;
       socialLink.innerHTML = `<i class="${link.iconClass}"></i>`;
+      if (link.onClick) {
+        socialLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          link.onClick(e);
+        });
+      }
       socialLinksContainer.appendChild(socialLink);
     });
     brandColumn.appendChild(socialLinksContainer);
 
-    // Services and Company Sections
     const createSection = (section) => {
       const sectionDiv = document.createElement("div");
       const sectionTitle = document.createElement("h3");
@@ -915,6 +944,12 @@ const uikit = (() => {
         anchor.href = link.href;
         anchor.className = `hover:text-${colorScheme.primaryColor} transition-colors`;
         anchor.textContent = link.text;
+        if (link.onClick) {
+          anchor.addEventListener("click", (e) => {
+            e.preventDefault();
+            link.onClick(e);
+          });
+        }
         listItem.appendChild(anchor);
         linkList.appendChild(listItem);
       });
@@ -926,7 +961,6 @@ const uikit = (() => {
     footerGrid.appendChild(createSection(footerSections.services));
     footerGrid.appendChild(createSection(footerSections.company));
 
-    // Newsletter Column
     const newsletterColumn = document.createElement("div");
     newsletterColumn.className = "lg:col-span-2";
 
@@ -957,16 +991,14 @@ const uikit = (() => {
     subscribeButton.className = `bg-${colorScheme.primaryColor} text-white px-4 py-2 hover:bg-${colorScheme.solidButtonHover} transition-colors rounded-r`;
     subscribeButton.textContent = newsletter.subscribeText;
 
-    // Subscribe button handler
     subscribeButton.addEventListener("click", () => {
       const email = emailInput.value;
-      newsletter.onSubscribe(email); // Pass email value to handler
+      newsletter.onSubscribe(email);
     });
 
     formGroup.appendChild(subscribeButton);
     newsletterForm.appendChild(formGroup);
 
-    // Agreement Text
     const agreementText = document.createElement("p");
     agreementText.className = `text-xs text-${colorScheme.subduedTextColor} mt-2`;
     agreementText.textContent = newsletter.agreementText;
@@ -976,7 +1008,6 @@ const uikit = (() => {
     footerGrid.appendChild(newsletterColumn);
     container.appendChild(footerGrid);
 
-    // Footer Bottom Section
     const footerBottom = document.createElement("div");
     footerBottom.className = "pt-8 border-t border-gray-800";
 
@@ -994,6 +1025,12 @@ const uikit = (() => {
       legalLink.href = link.href;
       legalLink.className = `hover:text-${colorScheme.primaryColor} transition-colors`;
       legalLink.textContent = link.text;
+      if (link.onClick) {
+        legalLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          link.onClick(e);
+        });
+      }
       legalLinksContainer.appendChild(legalLink);
     });
 
@@ -1905,7 +1942,15 @@ const uikit = (() => {
       const btn = document.createElement("button");
       btn.className = `px-6 py-3 ${button.bgColor || button.borderColor} ${button.textColor} rounded-md ${button.hoverBgColor} transition-colors whitespace-nowrap`;
       btn.textContent = button.text;
-      btn.addEventListener("click", button.onClick);
+
+      // Add custom onClick handler, if provided
+      if (button.onClick) {
+        btn.addEventListener("click", (event) => {
+          event.preventDefault();
+          button.onClick(event);
+        });
+      }
+
       ctaContainer.appendChild(btn);
     });
 
