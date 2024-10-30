@@ -432,7 +432,9 @@
         })
       );
 
-      document.body.appendChild(uikit.createBackToTopButton());
+      document.body.appendChild(uikit.createBackToTopButton({
+        colorScheme: { ...colorScheme }
+      }));
     </script>
   </body>
 </html>
